@@ -1,7 +1,6 @@
 {
-  "name": "@local/dsh-checkin-hub",
-  "version": "1.0.0",
-  "private": true,
+  "name": "dsh-checkin-hub",
+  "version": "1.1.0",
   "type": "module",
   "description": "Sidebar check-in hub for WorkBuddy, Trae and Qoder credits",
   "main": "index.js",

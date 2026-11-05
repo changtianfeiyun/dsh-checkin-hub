@@ -13,7 +13,7 @@
  * a platform API directly.
  */
 window.__ModuleLoader__.load({
-  id: "@local/dsh-checkin-hub",
+  id: "dsh-checkin-hub",
   factory(require) {
     const React = require("react");
     const h = React.createElement;
@@ -23,7 +23,7 @@ window.__ModuleLoader__.load({
     /* styles                                                              */
     /* ------------------------------------------------------------------ */
 
-    const CSS_ID = "@local/dsh-checkin-hub/client.css";
+    const CSS_ID = "dsh-checkin-hub/client.css";
 
     const HUB_CSS = `
 .dshck-page{box-sizing:border-box;height:100%;width:100%;display:flex;flex-direction:column;gap:18px;padding:26px clamp(20px,3.4vw,44px) 44px;overflow:auto;color:var(--dsw-alias-label-primary,#e6e6e6)}
@@ -102,7 +102,7 @@ window.__ModuleLoader__.load({
     if (typeof document !== "undefined") {
       if (!document.querySelector('style[data-plugin-css="' + CSS_ID + '"]')) {
         const styleTag = document.createElement("style");
-        styleTag.dataset.plugin = "@local/dsh-checkin-hub";
+        styleTag.dataset.plugin = "dsh-checkin-hub";
         styleTag.dataset.pluginCss = CSS_ID;
         styleTag.textContent = HUB_CSS;
         document.head.appendChild(styleTag);

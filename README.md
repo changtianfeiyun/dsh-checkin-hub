@@ -37,7 +37,7 @@ DeepSeek Harness Web GUI 侧边栏插件：把 **WorkBuddy / Trae / Qoder** 三�
 ### 方式一：从 GitHub Release 装（推荐，Windows / macOS / Linux 通用）
 
 ```bash
-plugin_manager action=install_bundle target=https://github.com/fzqfzqfzq/dsh-checkin-hub/releases/download/v1.0.0/local-dsh-checkin-hub-1.0.0.tgz
+plugin_manager action=install_bundle target=https://github.com/fzqfzqfzq/dsh-checkin-hub/releases/download/v1.1.0/dsh-checkin-hub-1.1.0.tgz
 ```
 
 这是唯一在三个系统上都不需要本地路径的装法：插件管理器直接下载 tarball 解包，不经过 git，也不要求目标机器装过 git。
@@ -56,10 +56,10 @@ Windows 上需要目标机器有可用的 git（pnpm 用 git 克隆，不经过 
 
 ```bash
 # 已经下载了 tgz
-plugin_manager action=install_bundle target=/绝对路径/local-dsh-checkin-hub-1.0.0.tgz
+plugin_manager action=install_bundle target=/绝对路径/dsh-checkin-hub-1.1.0.tgz
 
 # Windows 示例（必须是绝对路径，反斜杠或正斜杠都可以）
-plugin_manager action=install_bundle target=C:\Users\you\Downloads\local-dsh-checkin-hub-1.0.0.tgz
+plugin_manager action=install_bundle target=C:\Users\you\Downloads\dsh-checkin-hub-1.1.0.tgz
 
 # 开发时直接指向源码目录（装出来是软链接，改源码即生效）
 plugin_manager action=install_bundle target=/绝对路径/dsh-checkin-hub
@@ -72,7 +72,7 @@ plugin_manager action=install_bundle target=/绝对路径/dsh-checkin-hub
 同一包名已经装过时，插件管理器会返回 `already-installed` 并保留原内容。换版本或换装法必须先移除：
 
 ```bash
-plugin_manager action=remove_bundle target=@local/dsh-checkin-hub
+plugin_manager action=remove_bundle target=dsh-checkin-hub
 plugin_manager action=install_bundle target=<新的 spec>
 ```
 
@@ -92,19 +92,35 @@ plugin_manager action=install_bundle target=<新的 spec>
 node scripts/pack.mjs
 
 # 3. 打 tag 推上去，GitHub Actions 自动构建并附到 Release
-git tag v1.0.1 && git push origin v1.0.1
+git tag v1.1.1 && git push origin v1.1.1
 ```
 
 `scripts/pack.mjs` 用 `node:fs` / `node:crypto` 直接算 SHA-256，不依赖 `shasum`、`sed` 这类只在类 Unix 上存在的命令；在 Windows 上通过 `shell: true` 调用 `npm.cmd`。
 
-### 改名 / 发布到 npm
+### 发布到 npm（可选）
 
-`package.json` 里的名字是 `@local/dsh-checkin-hub`，`@local` 不是可发布的 scope。要对外发布需要同时改两处：
+包名 `dsh-checkin-hub` 在 npm 上未被占用，`private` 也已去掉，所以想发就能发：
 
-1. `package.json` 的 `name` 改成自己的 scope（例如 `@yourname/dsh-checkin-hub`），并删掉 `"private": true`；
-2. `cordis.patch.yml` 里 `- insert:` 的 `name` 必须与 `package.json` 的 `name` **完全一致**，否则安装后插件不会挂载。
+```bash
+npm publish
+# 之后别人可以
+plugin_manager action=install_bundle target=dsh-checkin-hub
+```
 
-改完 `npm publish --access public`，之后别人可以直接 `plugin_manager action=install_bundle target=@yourname/dsh-checkin-hub`。
+两个前提：
+
+1. `package.json` 的 `repository` 必须指回本仓库（已配置），npm 包才会与插件市场条目关联；
+2. 如果改包名，`cordis.patch.yml` 里 `- insert:` 的 `name` 必须与 `package.json` 的 `name` **完全一致**，否则装完插件不会挂载。
+
+发 npm 的好处是安装免去 `allowBuilds` 构建授权这一步（本插件本来也没有任何构建脚本），市场里还能显示下载量。
+
+## 插件市场
+
+本插件已向 [awesome-dsh-plugin](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin)（插件市场的收录源）提交条目。收录后，在 Harness 的 **插件 → 发现** 里就能直接搜到并一键安装。
+
+- 条目文件：`data/plugins/fzqfzqfzq__dsh-checkin-hub.yml`（在本仓库的 `market/` 目录留了一份副本）
+- 截图由本仓库的 `screenshots.json` 声明，换图只要推这个仓库，不用再提 PR
+- 收录 ≠ 安全审查：插件是第三方代码，请只安装你信任的来源
 
 ## 结构
 
@@ -115,7 +131,11 @@ dsh-checkin-hub/
 ├── index.js               # Host 侧：仅声明挂载
 ├── client.js              # 侧边栏图标 + 主面板 UI（React，经 window.__ModuleLoader__ 加载）
 ├── locale/{en,zh}.json    # 插件元数据
-├── icon.svg
+├── icon.svg               # 面板图标（SVG）
+├── assets/icon-180.png    # 插件市场卡片图标（必须是位图）
+├── assets/screenshot-1.png # 市场截图
+├── screenshots.json       # 声明市场截图，路径相对本文件
+├── market/                # 提交给 awesome-dsh-plugin 的条目副本
 ├── scripts/pack.mjs       # 跨平台打包 + SHA-256
 └── .github/workflows/release.yml   # 打 tag 自动构建 Release
 ```
