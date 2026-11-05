@@ -1,0 +1,11 @@
+# build output: the release tarball is attached to a GitHub Release, not committed
+dist/
+node_modules/
+*.tgz
+
+# editor / OS noise
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log

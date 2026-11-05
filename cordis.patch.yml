@@ -1,0 +1,4 @@
+# Register the check-in hub panel (sidebar icon + page).
+- insert:
+    - id: dsh-checkin-hub
+      name: '@local/dsh-checkin-hub'
