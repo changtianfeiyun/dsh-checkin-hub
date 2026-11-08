@@ -146,6 +146,7 @@ window.__ModuleLoader__.load({
       "action.confirmRemove": "确认移除",
       "action.cancel": "取消",
       "action.addAccount": "添加账号",
+      "action.joinPool": "加入号池",
       "action.details": "积分明细",
       "action.hideDetails": "收起明细",
       "account.done": "今日已签到",
@@ -177,6 +178,7 @@ window.__ModuleLoader__.load({
       "notice.added": "已添加 {name}",
       "notice.error": "{name}：{message}",
       "notice.wbDone": "WorkBuddy 新账号已加入：{name}",
+      "notice.joined": "{name} 已加入号池，可以签到了",
     };
 
     const en = {
@@ -212,6 +214,7 @@ window.__ModuleLoader__.load({
       "action.confirmRemove": "Confirm",
       "action.cancel": "Cancel",
       "action.addAccount": "Add account",
+      "action.joinPool": "Join pool",
       "action.details": "Credit breakdown",
       "action.hideDetails": "Hide breakdown",
       "account.done": "Checked in",
@@ -243,6 +246,7 @@ window.__ModuleLoader__.load({
       "notice.added": "Added {name}",
       "notice.error": "{name}: {message}",
       "notice.wbDone": "WorkBuddy account added: {name}",
+      "notice.joined": "{name} joined the pool and can check in now",
     };
 
     function fill(template, vars) {
@@ -256,6 +260,8 @@ window.__ModuleLoader__.load({
     const PANEL_ID = "dsh-checkin-hub";
     const NAMESPACE = "plugin.dsh-checkin-hub";
     const REGION = "cn";
+    /** Host route that writes one account into the pool membership slot. */
+    const MEMBERSHIP = (key) => `/plugins/dsh-checkin-hub/membership?platform=${encodeURIComponent(key)}&region=${REGION}`;
 
     const PLATFORMS = [
       {
@@ -534,6 +540,19 @@ window.__ModuleLoader__.load({
         h(
           "div",
           { className: "dshck-row-side" },
+          row.member === false
+            ? h(
+                "button",
+                {
+                  type: "button",
+                  className: "dshck-btn dshck-btn-sm dshck-btn-primary",
+                  disabled: props.busy,
+                  title: t("action.joinPool"),
+                  onClick: () => props.onJoinPool(row),
+                },
+                t("action.joinPool"),
+              )
+            : null,
           props.canCheckinOne && !row.checkedInToday
             ? h(
                 "button",
@@ -591,8 +610,18 @@ window.__ModuleLoader__.load({
               if (answer.error) {
                 props.notify("err", props.name + ": " + answer.error);
               } else {
-                const label = answer.account?.accountName || answer.account?.id || "";
+                // The Host answers {done, accountId, accountName} and has already
+                // stored the credential; the pool slot is still untouched.
+                const label = answer.accountName || answer.accountId || "";
                 props.notify("ok", fill(t("notice.wbDone"), { name: label }));
+                if (typeof answer.accountId === "string" && answer.accountId !== "") {
+                  try {
+                    await postJson(MEMBERSHIP(item.key), { accountId: answer.accountId, member: true });
+                    props.notify("ok", fill(t("notice.joined"), { name: label }));
+                  } catch (joinError) {
+                    props.notify("err", fill(t("notice.error"), { name: label, message: joinError?.message || String(joinError) }));
+                  }
+                }
                 props.reload();
               }
             }
@@ -708,6 +737,7 @@ window.__ModuleLoader__.load({
               onAskRemove: (id) => props.onAskRemove(item.key, id),
               onRemove: (row) => props.onRemove(item.key, row),
               onCheckinOne: (row) => props.onCheckinOne(item, row),
+              onJoinPool: (row) => props.onJoinPool(item, row),
             }),
           ),
         );
@@ -805,7 +835,17 @@ window.__ModuleLoader__.load({
                     const payload = { pat: pat.trim() };
                     if (patName.trim()) payload.name = patName.trim();
                     const answer = await postJson(item.addPath, payload);
-                    props.notify("ok", fill(t("notice.added"), { name: answer?.accountName || patName.trim() || "" }));
+                    const addedName = answer?.accountName || patName.trim() || "";
+                    props.notify("ok", fill(t("notice.added"), { name: addedName }));
+                    // Adding a credential never enrolls it, so put it in the pool here.
+                    if (typeof answer?.accountId === "string" && answer.accountId !== "") {
+                      try {
+                        await postJson(MEMBERSHIP(item.key), { accountId: answer.accountId, member: true });
+                        props.notify("ok", fill(t("notice.joined"), { name: addedName }));
+                      } catch (joinError) {
+                        props.notify("err", fill(t("notice.error"), { name: addedName, message: joinError?.message || String(joinError) }));
+                      }
+                    }
                     setPat("");
                     setPatName("");
                     setShowAdd(false);
@@ -1004,6 +1044,22 @@ window.__ModuleLoader__.load({
         [load, pushNotice, runPoolCheckin, t],
       );
 
+      const joinPool = useCallback(
+        async (item, row) => {
+          setBusyOf((prev) => ({ ...prev, [item.key]: true }));
+          try {
+            await postJson(MEMBERSHIP(item.key), { accountId: row.id, member: true });
+            pushNotice("ok", fill(t("notice.joined"), { name: row.name }));
+            await load(item.key, true);
+          } catch (error) {
+            pushNotice("err", fill(t("notice.error"), { name: t(item.nameKey), message: error?.message || String(error) }));
+          } finally {
+            if (aliveRef.current) setBusyOf((prev) => ({ ...prev, [item.key]: false }));
+          }
+        },
+        [load, pushNotice, t],
+      );
+
       const checkinAll = useCallback(async () => {
         setBusyAll(true);
         try {
@@ -1149,6 +1205,7 @@ window.__ModuleLoader__.load({
               onCheckinOne: checkinOne,
               onAskRemove: (key, id) => setConfirmRemove({ key, id }),
               onRemove: (key, row) => removeAccount(key, row),
+              onJoinPool: joinPool,
             }),
           ),
         ),

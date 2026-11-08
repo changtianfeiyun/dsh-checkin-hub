@@ -8,6 +8,7 @@ DeepSeek Harness Web GUI 侧边栏插件：把 **WorkBuddy / Trae / Qoder** 三�
 - **按平台签到**：每个平台卡片右上角单独签到，只处理该平台的账号池。
 - **多账号**：每个平台账号池中的账号逐条展示，显示积分余额、今日是否已签到、是否当前账号、是否号池成员、积分到期提示。
 - **单账号签到**：Trae 拥有真正的按账号签到接口（`POST /checkin`，body `{accountId}`），行内「单独签到」直接调用；WorkBuddy 与 Qoder 的上游连接插件只提供号池批量签到，行内按钮会落回批量并刷新。
+- **加入号池**：连接插件把「加账号」（存凭证）和「入号池」（参与每日签到）分成两件事，新加的账号默认不在号池里。账号行显示「未加入号池」徽标时，点行内「加入号池」即可写进该平台的号池；通过本面板新加的 Qoder PAT 与 OAuth 登录成功的 WorkBuddy 账号会自动入池。
 - **余额与使用情况**：卡片头部显示平台积分合计，底部显示已用 / 可用 / 即将过期，点「积分明细」可展开前 6 个积分包（名称、剩余/总量、剩余天数）。
 - **添加账号**：WorkBuddy 走浏览器 OAuth（`/oauth?action=start` 打开授权页，每 3 秒轮询 `poll`，成功自动入库）；Qoder 粘贴 PAT（`POST /accounts?action=add`）；Trae 无添加接口，提示先在 Trae 连接插件中登录。
 - **移除账号**：二次确认后调用各平台的 `pool?action=remove`（Trae 用 `action=delete` 真正删除账号）。
@@ -24,11 +25,21 @@ DeepSeek Harness Web GUI 侧边栏插件：把 **WorkBuddy / Trae / Qoder** 三�
 
 因此这三款工具需要先在插件中心启用各自的连接插件，签到中心只做聚合展示与触发。区域固定传 `region=cn`。
 
+唯一由本插件自己做主机的写操作是号池成员：
+
+```
+POST /plugins/dsh-checkin-hub/membership?platform=<workbuddy|trae|qoder>&region=cn
+body: {"accountId": "…", "member": true|false}
+```
+
+它由插件 host 半边调用 Harness 的 `settings` 服务，只对目标平台 Config 里的 `regions.<region>.pool.memberAccountIds` 数组做一次路径级 `set`，因此不会碰 `targetModelId`、`orderAccountIds`、`probeInputTokens`、`autoCheckin` 这些同槽字段（整槽替换会把它们重置）。Trae 没有 `__save` 路由、客户端也拿不到 `configForms`，这也是本插件能替三个平台统一处理入池的原因。
+
 ## 前置条件
 
 - Harness 需要在 **Web GUI** 下运行（`dsh.client.platform` 为 `web`）。
 - 三个连接插件需要在插件中心启用：`dsh-connect-workbuddy`、`dsh-connect-trae`、`@dmh2002/dsh-connect-qoder`。未安装时面板不会崩，会显示「连接插件未安装，请先在插件中心启用」。
 - 账号需要先在各连接插件里登录（WorkBuddy 登录 / Trae 登录 / Qoder PAT）。本插件不保存任何凭证。
+- 账号还要在**号池**里才会被签到。新加的账号默认不入池；面板上会显示「未加入号池」，点该行的「加入号池」即可（等价于在连接插件卡片里勾选成员并保存）。
 - 区域目前固定 `region=cn`；国际区账号（WorkBuddy global、Trae ai）会显示未登录。
 - 仓库：<https://github.com/fzqfzqfzq/dsh-checkin-hub>
 
@@ -37,7 +48,7 @@ DeepSeek Harness Web GUI 侧边栏插件：把 **WorkBuddy / Trae / Qoder** 三�
 ### 方式一：从 GitHub Release 装（推荐，Windows / macOS / Linux 通用）
 
 ```bash
-plugin_manager action=install_bundle target=https://github.com/fzqfzqfzq/dsh-checkin-hub/releases/download/v1.1.0/dsh-checkin-hub-1.1.0.tgz
+plugin_manager action=install_bundle target=https://github.com/fzqfzqfzq/dsh-checkin-hub/releases/download/v1.1.1/dsh-checkin-hub-1.1.1.tgz
 ```
 
 这是唯一在三个系统上都不需要本地路径的装法：插件管理器直接下载 tarball 解包，不经过 git，也不要求目标机器装过 git。
@@ -56,10 +67,10 @@ Windows 上需要目标机器有可用的 git（pnpm 用 git 克隆，不经过 
 
 ```bash
 # 已经下载了 tgz
-plugin_manager action=install_bundle target=/绝对路径/dsh-checkin-hub-1.1.0.tgz
+plugin_manager action=install_bundle target=/绝对路径/dsh-checkin-hub-1.1.1.tgz
 
 # Windows 示例（必须是绝对路径，反斜杠或正斜杠都可以）
-plugin_manager action=install_bundle target=C:\Users\you\Downloads\dsh-checkin-hub-1.1.0.tgz
+plugin_manager action=install_bundle target=C:\Users\you\Downloads\dsh-checkin-hub-1.1.1.tgz
 
 # 开发时直接指向源码目录（装出来是软链接，改源码即生效）
 plugin_manager action=install_bundle target=/绝对路径/dsh-checkin-hub
@@ -92,7 +103,7 @@ plugin_manager action=install_bundle target=<新的 spec>
 node scripts/pack.mjs
 
 # 3. 打 tag 推上去，GitHub Actions 自动构建并附到 Release
-git tag v1.1.1 && git push origin v1.1.1
+git tag v1.1.2 && git push origin v1.1.2
 ```
 
 `scripts/pack.mjs` 用 `node:fs` / `node:crypto` 直接算 SHA-256，不依赖 `shasum`、`sed` 这类只在类 Unix 上存在的命令；在 Windows 上通过 `shell: true` 调用 `npm.cmd`。
