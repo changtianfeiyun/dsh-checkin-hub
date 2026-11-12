@@ -47,7 +47,7 @@
           "source": {
             "type": "git",
             "url": "https://github.com/changtianfeiyun/dsh-checkin-hub",
-            "commit": "9243ebc4f10a4400353f4d0690c69cdbd8186945"
+            "commit": "1d87641647e385b5f3b701ec7d5849be6955ad10"
           },
           "engines": {
             "dsh": ">=0.1.0"
