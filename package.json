@@ -1,8 +1,8 @@
 {
   "name": "dsh-checkin-hub",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "type": "module",
-  "description": "Sidebar check-in hub for WorkBuddy, Trae and Qoder credits",
+  "description": "Sidebar check-in hub for WorkBuddy, Trae, Qoder and MiniMax Code credits, with a daily auto check-in scheduler",
   "main": "index.js",
   "icon": "icon.svg",
   "exports": {
@@ -43,19 +43,22 @@
     "dsh-plugin",
     "deepseek-harness",
     "checkin",
+    "check-in",
     "credits",
     "workbuddy",
     "trae",
     "qoder",
+    "minimax",
+    "scheduler",
     "sidebar"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fzqfzqfzq/dsh-checkin-hub.git"
+    "url": "git+https://github.com/changtianfeiyun/dsh-checkin-hub.git"
   },
-  "homepage": "https://github.com/fzqfzqfzq/dsh-checkin-hub#readme",
+  "homepage": "https://github.com/changtianfeiyun/dsh-checkin-hub#readme",
   "bugs": {
-    "url": "https://github.com/fzqfzqfzq/dsh-checkin-hub/issues"
+    "url": "https://github.com/changtianfeiyun/dsh-checkin-hub/issues"
   },
   "license": "MIT",
   "engines": {

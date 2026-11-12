@@ -1,0 +1,59 @@
+{
+  "format": 1,
+  "title": {
+    "en": "Local DSH plugin index",
+    "zh": "本地 DSH 插件索引"
+  },
+  "description": {
+    "en": "Self-hosted format-1 index for plugins that are not on npm.",
+    "zh": "自托管的 format-1 索引，用于未发布到 npm 的插件。"
+  },
+  "metadata": {
+    "categories": {
+      "usage": {
+        "title": {
+          "en": "Usage",
+          "zh": "使用"
+        }
+      }
+    },
+    "labels": {},
+    "sortKeys": {}
+  },
+  "plugins": [
+    {
+      "name": "dsh-checkin-hub",
+      "title": {
+        "en": "Check-in Hub",
+        "zh": "积分签到中心"
+      },
+      "description": {
+        "en": "Sidebar check-in hub for WorkBuddy, Trae, Qoder and MiniMax Code credits, with a daily auto check-in scheduler.",
+        "zh": "侧边栏签到中心：WorkBuddy、Trae、Qoder、MiniMax Code 一键签到与积分查看，可设定每天几点后自动签到。"
+      },
+      "icon": "https://raw.githubusercontent.com/changtianfeiyun/dsh-checkin-hub/main/assets/icon-180.png",
+      "author": "changtianfeiyun",
+      "homepage": "https://github.com/changtianfeiyun/dsh-checkin-hub#readme",
+      "repository": {
+        "url": "https://github.com/changtianfeiyun/dsh-checkin-hub"
+      },
+      "metadata": {
+        "category": "usage"
+      },
+      "versions": [
+        {
+          "version": "1.2.0",
+          "publishTimestamp": 1794445604,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/changtianfeiyun/dsh-checkin-hub",
+            "commit": "9243ebc4f10a4400353f4d0690c69cdbd8186945"
+          },
+          "engines": {
+            "dsh": ">=0.1.0"
+          }
+        }
+      ]
+    }
+  ]
+}

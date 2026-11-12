@@ -38,17 +38,28 @@ window.__ModuleLoader__.load({
 .dshck-btn{appearance:none;font:inherit;cursor:pointer;border-radius:8px;padding:7px 14px;font-size:13px;line-height:20px;border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-layer-1);color:var(--dsw-alias-label-primary);display:inline-flex;align-items:center;gap:6px}
 .dshck-btn:hover:not(:disabled){border-color:var(--dsw-alias-brand-primary)}
 .dshck-btn:disabled{opacity:.55;cursor:default}
-.dshck-btn-primary{background:var(--dsw-alias-brand-primary);border-color:transparent;color:#fff;font-weight:600}
-.dshck-btn-primary:hover:not(:disabled){filter:brightness(1.08)}
+.dshck-btn-primary{background:var(--dsw-alias-button-primary-fill,var(--dsw-alias-brand-primary));border-color:transparent;color:var(--dsw-alias-label-primary-foreground,#fff);font-weight:600}
+.dshck-btn-primary:hover:not(:disabled){background:var(--dsw-alias-button-primary-hover,var(--dsw-alias-brand-primary))}
 .dshck-btn-ghost{background:transparent}
 .dshck-btn-danger{color:var(--dsw-alias-state-error-primary);border-color:var(--dsw-alias-state-error-primary)}
 .dshck-btn-sm{padding:3px 9px;font-size:12px;line-height:18px;border-radius:6px}
-.dshck-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:0.5px solid var(--dsw-alias-border-l2);border-radius:14px;background:var(--dsw-alias-bg-layer-1);overflow:hidden}
+.dshck-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:0.5px solid var(--dsw-alias-border-l2);border-radius:14px;background:var(--dsw-alias-bg-layer-1);overflow:hidden;flex:none}
 .dshck-stat{display:flex;flex-direction:column;gap:2px;padding:12px 14px;min-width:0}
 .dshck-stat + .dshck-stat{border-left:0.5px solid var(--dsw-alias-border-l2)}
 .dshck-stat-label{font-size:12px;line-height:18px;color:var(--dsw-alias-label-secondary)}
 .dshck-stat-value{font-size:19px;line-height:26px;font-weight:650;font-variant-numeric:tabular-nums}
 .dshck-stat-hint{font-size:11px;line-height:16px;color:var(--dsw-alias-label-secondary);opacity:.85}
+.dshck-auto{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 14px;border:0.5px solid var(--dsw-alias-border-l2);border-radius:12px;background:var(--dsw-alias-bg-layer-2);font-size:12px;line-height:18px;color:var(--dsw-alias-label-secondary)}
+.dshck-auto-dot{width:8px;height:8px;border-radius:50%;flex:none;background:var(--dsw-alias-state-success-primary)}
+.dshck-auto-dot.off{background:var(--dsw-alias-label-secondary);opacity:.6}
+.dshck-auto-text{display:flex;flex-direction:column;gap:1px;min-width:0;flex:1 1 260px}
+.dshck-auto-title{font-size:13px;line-height:19px;font-weight:600;color:var(--dsw-alias-label-primary)}
+.dshck-auto-sub{font-size:11px;line-height:16px}
+.dshck-auto-actions{display:flex;align-items:center;gap:6px;margin-left:auto;flex:none}
+.dshck-auto-actions .dshck-btn{white-space:nowrap;flex:none}
+.dshck-auto-time{font-size:11px;line-height:16px;color:var(--dsw-alias-label-secondary);white-space:nowrap}
+.dshck-auto-input{flex:0 0 auto;width:112px;padding:3px 8px;font-size:12px;line-height:18px;border-radius:6px;background:var(--dsw-alias-bg-base);color:var(--dsw-alias-label-primary)}
+.dshck-auto-input::-webkit-calendar-picker-indicator{opacity:.7;cursor:pointer}
 .dshck-cards{display:flex;flex-direction:column;gap:14px}
 .dshck-card{border:0.5px solid var(--dsw-alias-border-l2);border-radius:14px;background:var(--dsw-alias-bg-layer-1);display:flex;flex-direction:column;overflow:hidden}
 .dshck-card-head{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:0.5px solid var(--dsw-alias-border-l2);flex-wrap:wrap}
@@ -56,6 +67,7 @@ window.__ModuleLoader__.load({
 .dshck-brand-wb{background:linear-gradient(135deg,#3D7BF7,#5B4BE8)}
 .dshck-brand-trae{background:linear-gradient(135deg,#12141A,#3B4252)}
 .dshck-brand-qoder{background:linear-gradient(135deg,#0EA5A0,#1F7AE0)}
+.dshck-brand-mm{background:linear-gradient(135deg,#F2545B,#7A3BFF)}
 .dshck-card-titles{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1 1 180px}
 .dshck-card-name{font-size:15px;line-height:22px;font-weight:600;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .dshck-card-sub{font-size:12px;line-height:18px;color:var(--dsw-alias-label-secondary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -116,13 +128,13 @@ window.__ModuleLoader__.load({
     const zh = {
       "nav.panel": "积分签到",
       "page.title": "积分签到中心",
-      "page.desc": "一键为 WorkBuddy、Trae、Qoder 的全部账号签到，并查看积分余额与使用情况。",
+      "page.desc": "一键为 WorkBuddy、Trae、Qoder、MiniMax Code 的全部账号签到，并查看积分余额与使用情况。",
       "page.refresh": "刷新",
       "page.checkinAll": "一键全部签到",
       "page.checking": "签到中…",
       "page.back": "返回对话",
       "summary.balance": "可用积分合计",
-      "summary.balanceHint": "三个平台合计",
+      "summary.balanceHint": "各平台合计",
       "summary.accounts": "账号总数",
       "summary.checkedIn": "今日已签到",
       "summary.pending": "待签到账号",
@@ -133,6 +145,8 @@ window.__ModuleLoader__.load({
       "platform.traeDesc": "国内版 · 每日签到领取通用积分",
       "platform.qoder": "Qoder",
       "platform.qoderDesc": "使用 PAT 添加账号 · 每日签到大模型积分",
+      "platform.minimax": "MiniMax Code",
+      "platform.minimaxDesc": "本机登录账号 · 每日签到领取积分",
       "state.signedOut": "未登录",
       "state.notInstalled": "连接插件未安装，请先在插件中心启用",
       "state.loading": "正在读取…",
@@ -157,6 +171,7 @@ window.__ModuleLoader__.load({
       "credits.available": "可用 {n}",
       "credits.empty": "暂无积分数据",
       "credits.total": "余额 {n}",
+      "credits.weekClaimed": "本周已领 {n}",
       "credits.accountCount": "{n} 个账号",
       "checkin.streak": "连续签到 {n} 天",
       "checkin.daily": "每日 +{n}",
@@ -178,19 +193,32 @@ window.__ModuleLoader__.load({
       "notice.added": "已添加 {name}",
       "notice.error": "{name}：{message}",
       "notice.wbDone": "WorkBuddy 新账号已加入：{name}",
+      "auto.title": "自动签到",
+      "auto.on": "已开启 · 每天 {time} 后自动签到",
+      "auto.off": "已暂停",
+      "auto.last": "上次自动签到：{when}",
+      "auto.never": "今天还没到自动签到时间",
+      "auto.done": "今天已自动签到",
+      "auto.runNow": "立即运行",
+      "auto.running": "签到中…",
+      "auto.pause": "暂停",
+      "auto.enable": "开启",
+      "auto.timeLabel": "时间",
+      "auto.timeSaved": "自动签到时间已改为 {time}",
+      "auto.runDone": "自动签到已执行",
       "notice.joined": "{name} 已加入号池，可以签到了",
     };
 
     const en = {
       "nav.panel": "Check-in Hub",
       "page.title": "Check-in Hub",
-      "page.desc": "Claim daily credits for every WorkBuddy, Trae and Qoder account, then review balances and usage.",
+      "page.desc": "Claim daily credits for every WorkBuddy, Trae, Qoder and MiniMax Code account, then review balances and usage.",
       "page.refresh": "Refresh",
       "page.checkinAll": "Check in everywhere",
       "page.checking": "Checking in…",
       "page.back": "Back to chat",
       "summary.balance": "Total credits",
-      "summary.balanceHint": "All three platforms",
+      "summary.balanceHint": "All platforms",
       "summary.accounts": "Accounts",
       "summary.checkedIn": "Checked in today",
       "summary.pending": "Still pending",
@@ -201,6 +229,8 @@ window.__ModuleLoader__.load({
       "platform.traeDesc": "CN edition · daily general-credit claim",
       "platform.qoder": "Qoder",
       "platform.qoderDesc": "PAT sign-in · daily model credits",
+      "platform.minimax": "MiniMax Code",
+      "platform.minimaxDesc": "Local login account · daily sign-in credits",
       "state.signedOut": "Not signed in",
       "state.notInstalled": "Connect plugin is not installed — enable it in Settings → Plugins",
       "state.loading": "Loading…",
@@ -225,6 +255,7 @@ window.__ModuleLoader__.load({
       "credits.available": "{n} available",
       "credits.empty": "No credit data yet",
       "credits.total": "balance {n}",
+      "credits.weekClaimed": "{n} claimed this week",
       "credits.accountCount": "{n} accounts",
       "checkin.streak": "{n}-day streak",
       "checkin.daily": "+{n} per day",
@@ -246,6 +277,19 @@ window.__ModuleLoader__.load({
       "notice.added": "Added {name}",
       "notice.error": "{name}: {message}",
       "notice.wbDone": "WorkBuddy account added: {name}",
+      "auto.title": "Auto check-in",
+      "auto.on": "On · runs daily after {time}",
+      "auto.off": "Paused",
+      "auto.last": "Last auto run: {when}",
+      "auto.never": "Not due yet today",
+      "auto.done": "Auto check-in done today",
+      "auto.runNow": "Run now",
+      "auto.running": "Checking in…",
+      "auto.pause": "Pause",
+      "auto.enable": "Enable",
+      "auto.timeLabel": "Time",
+      "auto.timeSaved": "Auto check-in time set to {time}",
+      "auto.runDone": "Auto check-in ran",
       "notice.joined": "{name} joined the pool and can check in now",
     };
 
@@ -260,6 +304,7 @@ window.__ModuleLoader__.load({
     const PANEL_ID = "dsh-checkin-hub";
     const NAMESPACE = "plugin.dsh-checkin-hub";
     const REGION = "cn";
+    const QODER_REGION = "qoder-cn"; /* connector 0.7.x only accepts its region ids */
     /** Host route that writes one account into the pool membership slot. */
     const MEMBERSHIP = (key) => `/plugins/dsh-checkin-hub/membership?platform=${encodeURIComponent(key)}&region=${REGION}`;
 
@@ -293,13 +338,33 @@ window.__ModuleLoader__.load({
         descKey: "platform.qoderDesc",
         brand: "QD",
         brandClass: "dshck-brand-qoder",
-        usage: `/plugins/dsh-connect-qoder/usage?region=${REGION}`,
-        poolCheckin: `/plugins/dsh-connect-qoder/pool?action=checkin&region=${REGION}`,
-        addable: "pat",
-        addPath: `/plugins/dsh-connect-qoder/accounts?action=add&region=${REGION}`,
-        removable: (id) => `/plugins/dsh-connect-qoder/pool?action=remove&region=${REGION}&accountId=${encodeURIComponent(id)}`,
+        usage: `/plugins/dsh-connect-qoder/usage?region=${QODER_REGION}`,
+        accountUrl: `/plugins/dsh-connect-qoder/account?region=${QODER_REGION}`,
+        poolCheckin: `/plugins/dsh-connect-qoder/checkin?region=${QODER_REGION}`,
+      },
+      {
+        key: "minimax",
+        nameKey: "platform.minimax",
+        descKey: "platform.minimaxDesc",
+        brand: "MM",
+        brandClass: "dshck-brand-mm",
+        usage: "/plugins/dsh-connect-minimax/api/signin",
+        poolCheckin: "/plugins/dsh-connect-minimax/api/checkin",
       },
     ];
+
+    const SCHEDULE_URL = "/plugins/dsh-checkin-hub/schedule";
+    const SCHEDULE_RUN_URL = SCHEDULE_URL + "/run";
+    const SCHEDULE_SETTINGS_URL = SCHEDULE_URL + "/settings";
+
+    function fmtWhen(iso) {
+      if (!iso) return null;
+      const at = new Date(iso);
+      if (Number.isNaN(at.getTime())) return null;
+      const hh = String(at.getHours()).padStart(2, "0");
+      const mm = String(at.getMinutes()).padStart(2, "0");
+      return hh + ":" + mm;
+    }
 
     async function requestJson(url, init) {
       const options = Object.assign({ credentials: "same-origin" }, init || {});
@@ -371,11 +436,20 @@ window.__ModuleLoader__.load({
 
     function viewOfWorkbuddy(payload) {
       const rows = payload?.pool?.accounts ?? [];
+      /* connector 5.x omits the per-row checkedInToday when the account pool is
+       * switched off (pool.enabled === false): checkedInToday() returns {} early
+       * in that case, while the account-level checkin.todayCheckedIn still knows
+       * the truth. Fall back to it for the single/current account so a disabled
+       * pool does not paint "今日未签到" on an account that already claimed. */
+      const todayChecked = payload?.checkin?.todayCheckedIn === true;
+      const rowCheckedIn = (row) =>
+        row.checkedInToday === true ||
+        (row.checkedInToday === void 0 && todayChecked && (row.current === true || rows.length === 1));
       const accounts = rows.map((row) => ({
         id: row.accountId,
         name: row.accountName || row.accountId,
         credits: typeof row.credits === "number" ? row.credits : null,
-        checkedInToday: row.checkedInToday === true,
+        checkedInToday: rowCheckedIn(row),
         member: row.member !== false,
         current: row.current === true,
         expiringSoon: typeof row.expiringSoon === "number" ? row.expiringSoon : 0,
@@ -389,7 +463,7 @@ window.__ModuleLoader__.load({
           id: account.id,
           name: account.accountName || account.id,
           credits: null,
-          checkedInToday: false,
+          checkedInToday: todayChecked && (account.selected === true || (payload?.accounts ?? []).length === 1),
           member: false,
           current: account.selected === true,
           expiringSoon: 0,
@@ -447,53 +521,94 @@ window.__ModuleLoader__.load({
       };
     }
 
+    function viewOfMinimax(payload) {
+      // connector dsh-connect-minimax answers with the mcode sign-in panel:
+      // { ok, signedIn, account:{name,realUserID}, checkin:{ todayCheckedIn, amount, streakDays, weekPoints, claimedDays, days } }
+      const checkin = payload?.checkin ?? {};
+      const signedIn = payload?.ok === true && payload?.signedIn === true;
+      const name = payload?.account?.name || "MiniMax Code";
+      /* The balance lives on the usage route (/minimax-cloud/api/v1/credit/details),
+       * which the connector now folds into payload.credits. Older connector builds
+       * omit it, so fall back to "—" rather than inventing a number. */
+      const walletTotal = typeof payload?.credits?.total === "number" ? payload.credits.total : null;
+      const nearestExpiryMs = typeof payload?.credits?.nearestExpiryMs === "number" ? payload.credits.nearestExpiryMs : null;
+      const accounts = signedIn
+        ? [
+            {
+              id: "minimax-code",
+              name,
+              credits: walletTotal,
+              checkedInToday: checkin.todayCheckedIn === true,
+              member: true,
+              current: true,
+              expiringSoon: 0,
+              nearestExpiryMs,
+              outOfPool: false,
+            },
+          ]
+        : [];
+      return {
+        signedIn,
+        balance: walletTotal,
+        consumed: null,
+        available: null,
+        checkedInToday: checkin.todayCheckedIn === true,
+        checkinActive: checkin.active !== false,
+        streakDays: typeof checkin.streakDays === "number" ? checkin.streakDays : null,
+        dailyCredit: typeof checkin.amount === "number" ? checkin.amount : null,
+        weekPoints: typeof checkin.weekPoints === "number" ? checkin.weekPoints : null,
+        accounts,
+        packs: packagesOf(payload?.credits?.packages, (item) => item.packageName),
+        expiringSoon: null,
+        checkinSupported: payload?.ok !== false,
+        message: payload?.error,
+      };
+    }
+
     function viewOfQoder(payload) {
-      const rows = payload?.pool?.accounts ?? [];
-      const accounts = rows.map((row) => ({
-        id: row.accountId,
-        name: row.accountName || row.accountId,
-        credits: typeof row.credits === "number" ? row.credits : null,
-        checkedInToday: row.checkedInToday === true,
-        member: row.member !== false,
-        current: row.current === true,
-        expiringSoon: typeof row.expiringSoon === "number" ? row.expiringSoon : 0,
-        nearestExpiryMs: row.nearestExpiryMs,
-        outOfPool: false,
-      }));
-      const known = new Set(accounts.map((a) => a.id));
-      for (const account of payload?.accounts ?? []) {
-        if (!account || known.has(account.id)) continue;
+      // connector @eghrhegpe/dsh-connect-qoder 0.7.x answers with { regions: [...] }
+      // (desktop credential state per region), not { status, pool: { accounts } }.
+      const regionRows = Array.isArray(payload?.regions) ? payload.regions : [];
+      const accounts = [];
+      for (const region of regionRows) {
+        if (!region) continue;
+        if (region.state !== "ok" && region.available !== true) continue;
+        const quota = region.addOnQuota || {};
+        const checkin = region.checkin || {};
         accounts.push({
-          id: account.id,
-          name: account.accountName || account.id,
-          credits: null,
-          checkedInToday: false,
-          member: false,
-          current: account.selected === true,
+          id: region.region || region.regionName || "qoder",
+          name: region.identity?.name || region.regionName || region.region || "Qoder",
+          credits: typeof quota.remaining === "number" ? quota.remaining : typeof quota.total === "number" ? quota.total : null,
+          checkedInToday: checkin.todayCheckedIn === true,
+          member: true,
+          current: true,
           expiringSoon: 0,
-          nearestExpiryMs: null,
-          outOfPool: true,
+          nearestExpiryMs: region.identity?.expiresAt ?? null,
+          outOfPool: false,
         });
       }
       const rowBalance = sumBy(accounts, (account) => account.credits);
       return {
-        signedIn: payload?.status === "signed-in",
+        signedIn: payload?.status === "signed-in" || accounts.length > 0,
         balance: rowBalance !== null ? rowBalance : typeof payload?.credits?.total === "number" ? payload.credits.total : null,
         consumed: null,
         available: null,
-        checkedInToday: accounts.some((a) => a.checkedInToday),
+        checkedInToday: accounts.some((a) => a.checkedInToday) || regionRows.some((r) => r?.checkin?.todayCheckedIn === true),
         checkinActive: true,
         streakDays: null,
-        dailyCredit: null,
+        dailyCredit: (() => {
+          const ok = regionRows.find((region) => (region?.state === "ok" || region?.available === true) && region?.checkin?.active === true);
+          return typeof ok?.checkin?.amount === "number" ? ok.checkin.amount : null;
+        })(),
         accounts,
-        packs: packagesOf(payload?.credits?.packages, (item) => item.packageName),
+        packs: packagesOf(payload?.dedicatedPackages, (item) => item.packageName),
         expiringSoon: typeof payload?.credits?.expiringSoon === "number" ? payload.credits.expiringSoon : null,
-        checkinSupported: payload?.pool?.checkinSupported !== false,
+        checkinSupported: true,
         message: payload?.message,
       };
     }
 
-    const VIEWS = { workbuddy: viewOfWorkbuddy, trae: viewOfTrae, qoder: viewOfQoder };
+    const VIEWS = { workbuddy: viewOfWorkbuddy, trae: viewOfTrae, qoder: viewOfQoder, minimax: viewOfMinimax };
 
     /* ------------------------------------------------------------------ */
     /* components                                                          */
@@ -585,7 +700,7 @@ window.__ModuleLoader__.load({
     function PlatformCard(props) {
       const item = props.platform;
       const t = props.t;
-      const state = props.state;
+      const state = props.state ?? { loading: true, view: null, error: null, status: 0 };
       const view = state.view;
       const [showPacks, setShowPacks] = useState(false);
       const [showAdd, setShowAdd] = useState(false);
@@ -749,6 +864,8 @@ window.__ModuleLoader__.load({
         if (typeof view.available === "number") usageBits.push(fill(t("credits.available"), { n: fmt(view.available) }));
         if (typeof view.expiringSoon === "number" && view.expiringSoon > 0)
           usageBits.push(fill(t("account.expiring"), { n: fmt(view.expiringSoon) }));
+        if (typeof view.weekPoints === "number" && view.weekPoints > 0)
+          usageBits.push(fill(t("credits.weekClaimed"), { n: fmt(view.weekPoints) }));
         if (usageBits.length === 0 && typeof view.balance === "number") {
           usageBits.push(fill(t("credits.total"), { n: fmt(view.balance) }));
           if (view.accounts.length > 0) usageBits.push(fill(t("credits.accountCount"), { n: view.accounts.length }));
@@ -917,14 +1034,91 @@ window.__ModuleLoader__.load({
       );
     }
 
+    function AutoBar(props) {
+      const { state, busy, t, onRun, onToggle, onTime } = props;
+      const enabled = state?.enabled !== false;
+      const time = state?.time || "10:00";
+      const [draft, setDraft] = useState(time);
+      const [editing, setEditing] = useState(false);
+      useEffect(() => {
+        if (!editing) setDraft(time);
+      }, [time, editing]);
+      const commit = () => {
+        setEditing(false);
+        const next = String(draft || "").trim();
+        if (/^\d{1,2}:\d{2}$/.test(next) && next !== time) onTime(next);
+        else setDraft(time);
+      };
+      const last = fmtWhen(state?.lastRunAt);
+      const lastDay = state?.lastRunDay || null;
+      const today = state?.localDay || null;
+      const doneToday = Boolean(state?.doneToday) || Boolean(lastDay && today && lastDay === today);
+      const summary = doneToday ? t("auto.done") : last ? fill(t("auto.last"), { when: last }) : t("auto.never");
+      const dotClass = "dshck-auto-dot" + (enabled ? "" : " off");
+      return h(
+        "div",
+        { className: "dshck-auto" },
+        h("span", { className: dotClass, "aria-hidden": "true" }),
+        h(
+          "div",
+          { className: "dshck-auto-text" },
+          h("span", { className: "dshck-auto-title" }, t("auto.title")),
+          h(
+            "span",
+            { className: "dshck-auto-sub" },
+            enabled ? fill(t("auto.on"), { time }) : t("auto.off"),
+            " · ",
+            summary,
+          ),
+        ),
+        h(
+          "div",
+          { className: "dshck-auto-actions" },
+          h("label", { className: "dshck-auto-time" }, t("auto.timeLabel")),
+          h("input", {
+            type: "time",
+            className: "dshck-input dshck-auto-input",
+            value: draft,
+            disabled: busy,
+            "aria-label": t("auto.timeLabel"),
+            onFocus: () => setEditing(true),
+            onChange: (event) => setDraft(event.target.value),
+            onBlur: commit,
+            onKeyDown: (event) => {
+              if (event.key === "Enter") commit();
+              if (event.key === "Escape") {
+                setDraft(time);
+                setEditing(false);
+              }
+            },
+          }),
+          h(
+            "button",
+            { type: "button", className: "dshck-btn dshck-btn-sm", disabled: busy, onClick: onRun },
+            busy ? t("auto.running") : t("auto.runNow"),
+          ),
+          h(
+            "button",
+            { type: "button", className: "dshck-btn dshck-btn-sm dshck-btn-ghost", disabled: busy, onClick: onToggle },
+            enabled ? t("auto.pause") : t("auto.enable"),
+          ),
+        ),
+      );
+    }
+
     function HubPanel(props) {
       const t = typeof props.t === "function" ? props.t : (key) => key;
-      const [states, setStates] = useState({
-        workbuddy: { loading: true, view: null, error: null, status: 0 },
-        trae: { loading: true, view: null, error: null, status: 0 },
-        qoder: { loading: true, view: null, error: null, status: 0 },
+      const [states, setStates] = useState(() => {
+        // derive from PLATFORMS so adding a platform never leaves a hole here
+        // (a missing entry made PlatformCard read state.view of undefined and
+        // blanked the whole panel when minimax was appended).
+        const seed = {};
+        for (const item of PLATFORMS) seed[item.key] = { loading: true, view: null, error: null, status: 0 };
+        return seed;
       });
       const [busyAll, setBusyAll] = useState(false);
+      const [schedule, setSchedule] = useState(null);
+      const [autoBusy, setAutoBusy] = useState(false);
       const [busyOf, setBusyOf] = useState({});
       const [notices, setNotices] = useState([]);
       const [confirmRemove, setConfirmRemove] = useState(null);
@@ -950,6 +1144,19 @@ window.__ModuleLoader__.load({
           setStates((prev) => ({ ...prev, [key]: { ...prev[key], loading: true } }));
           try {
             const payload = await requestJson(item.usage, { method: "GET" });
+            if (item.accountUrl && payload && Array.isArray(payload.regions)) {
+              try {
+                const acct = await requestJson(item.accountUrl, { method: "GET" });
+                for (const row of (acct && Array.isArray(acct.regions)) ? acct.regions : []) {
+                  if (!row) continue;
+                  const target = payload.regions.find((r) => r && r.region === row.region);
+                  if (target) {
+                    if (row.state) target.state = row.state;
+                    if (row.identity) target.identity = row.identity;
+                  }
+                }
+              } catch (_e) {}
+            }
             if (!aliveRef.current) return;
             setStates((prev) => ({
               ...prev,
@@ -982,18 +1189,67 @@ window.__ModuleLoader__.load({
         [load],
       );
 
+      const loadSchedule = useCallback(async () => {
+        try {
+          const payload = await requestJson(SCHEDULE_URL, { method: "GET" });
+          if (!aliveRef.current) return;
+          if (payload && typeof payload === "object") setSchedule(payload);
+        } catch (_error) {
+          if (!aliveRef.current) return;
+          setSchedule((prev) => prev);
+        }
+      }, []);
+
+      const saveSchedule = useCallback(
+        async (patch, okKey) => {
+          setAutoBusy(true);
+          try {
+            const payload = await postJson(SCHEDULE_SETTINGS_URL, patch);
+            if (aliveRef.current && payload && typeof payload === "object") setSchedule(payload);
+            if (okKey) pushNotice("ok", okKey);
+          } catch (error) {
+            pushNotice("err", fill(t("notice.error"), { name: t("auto.title"), message: error?.message || String(error) }));
+          } finally {
+            if (aliveRef.current) setAutoBusy(false);
+          }
+        },
+        [pushNotice, t],
+      );
+
+      const runScheduleNow = useCallback(async () => {
+        setAutoBusy(true);
+        try {
+          await postJson(SCHEDULE_RUN_URL, {});
+          await loadSchedule();
+          loadAll(true);
+          pushNotice("ok", t("auto.runDone"));
+        } catch (error) {
+          pushNotice("err", fill(t("notice.error"), { name: t("auto.title"), message: error?.message || String(error) }));
+        } finally {
+          if (aliveRef.current) setAutoBusy(false);
+        }
+      }, [loadAll, loadSchedule, pushNotice, t]);
       useEffect(() => {
         loadAll(true);
+        loadSchedule();
         const timer = setInterval(() => loadAll(true), 300000);
-        return () => clearInterval(timer);
-      }, [loadAll]);
+        const scheduleTimer = setInterval(() => loadSchedule(), 60000);
+        return () => {
+          clearInterval(timer);
+          clearInterval(scheduleTimer);
+        };
+      }, [loadAll, loadSchedule]);
+
 
       const runPoolCheckin = useCallback(
         async (item) => {
           setBusyOf((prev) => ({ ...prev, [item.key]: true }));
           try {
             const answer = await postJson(item.poolCheckin, {});
-            const rows = Array.isArray(answer?.rows) ? answer.rows : [];
+            let rows = Array.isArray(answer?.rows) ? answer.rows : [];
+            if (rows.length === 0 && answer && (answer.claimed === true || answer.alreadyClaimed === true)) {
+              rows = [{ status: answer.alreadyClaimed === true ? "already" : "claimed" }];
+            }
             const claimed = rows.filter((row) => row.status === "claimed").length;
             const already = rows.filter((row) => row.status === "already").length;
             const failed = rows.filter((row) => row.status === "failed").length;
@@ -1147,6 +1403,15 @@ window.__ModuleLoader__.load({
             ),
           ),
         ),
+        h(AutoBar, {
+          state: schedule,
+          busy: autoBusy,
+          t,
+          onRun: runScheduleNow,
+          onToggle: () => saveSchedule({ enabled: schedule?.enabled === false }),
+          onTime: (next) =>
+            saveSchedule({ time: next }, fill(t("auto.timeSaved"), { time: next })),
+        }),
         h(
           "div",
           { className: "dshck-summary" },
